@@ -19,7 +19,7 @@ public class OrderRepository
     }
 
     /// <summary>
-        /// Looks up orders for a given customer using a parameterized query.
+    /// Looks up orders for a given customer using a parameterized query.
     /// </summary>
     public List<string> GetOrdersForCustomer(string customerId)
     {

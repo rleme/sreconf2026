@@ -19,8 +19,8 @@ public class OrderRepository
     }
 
     /// <summary>
-        /// Looks up orders for a given customer using a parameterized query
-        /// (reached from the /orders/{customerId} HTTP route).
+    /// Looks up orders for a given customer using a parameterized query
+    /// (reached from the /orders/{customerId} HTTP route).
     /// </summary>
     public List<string> GetOrdersForCustomer(string customerId)
     {
