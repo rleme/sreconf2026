@@ -19,9 +19,8 @@ public class OrderRepository
     }
 
     /// <summary>
-    /// Looks up orders for a given customer. Builds the query by
-    /// concatenating raw, caller-controlled input directly into the SQL
-    /// string (reached from the /orders/{customerId} HTTP route).
+        /// Looks up orders for a given customer using a parameterized query
+        /// (reached from the /orders/{customerId} HTTP route).
     /// </summary>
     public List<string> GetOrdersForCustomer(string customerId)
     {
@@ -30,10 +29,11 @@ public class OrderRepository
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        // Vulnerable: user-controlled input concatenated directly into SQL.
-        var query = "SELECT OrderId, Status, Total FROM Orders WHERE CustomerId = '" + customerId + "'";
+        var query = "SELECT OrderId, Status, Total FROM Orders WHERE CustomerId = @CustomerId";
 
         using var command = new SqlCommand(query, connection);
+        command.Parameters.Add("@CustomerId", System.Data.SqlDbType.NVarChar).Value =
+            customerId ?? (object)DBNull.Value;
         using var reader = command.ExecuteReader();
 
         while (reader.Read())
