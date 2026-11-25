@@ -27,7 +27,11 @@ public class OrderRepository
     {
         var results = new List<string>();
 
-        using var connection = new SqlConnection(_connectionString);
+        var connectionStringBuilder = new SqlConnectionStringBuilder(_connectionString)
+        {
+            Encrypt = true,
+        };
+        using var connection = new SqlConnection(connectionStringBuilder.ConnectionString);
         connection.Open();
 
         // Vulnerable: user-controlled input concatenated directly into SQL.
